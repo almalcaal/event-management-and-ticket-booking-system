@@ -1,12 +1,15 @@
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { FaUser } from "react-icons/fa";
+import logo from "../../assets/logo.svg";
 
 const Header = () => {
   return (
     <header>
       <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
         <Container>
-          <Navbar.Brand href="/">FakeEvents</Navbar.Brand>
+          <Navbar.Brand href="/">
+            <img src={logo} alt="FakeEvents" height="30px" />
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
