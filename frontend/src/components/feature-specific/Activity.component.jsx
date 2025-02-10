@@ -1,18 +1,19 @@
 import { Card } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const Activity = ({ activity }) => {
   return (
     <Card className="my-3 p-3 rounded">
-      <a href={`/activity/${activity._id}`}>
+      <Link to={`/activity/${activity._id}`}>
         <Card.Img src={activity.image} variant="top" />
-      </a>
+      </Link>
 
       <Card.Body>
-        <a href={`/activity/${activity._id}`}>
+        <Link to={`/activity/${activity._id}`}>
           <Card.Title as="div">
             <strong>{activity.name}</strong>
           </Card.Title>
-        </a>
+        </Link>
       </Card.Body>
 
       <Card.Text as="h3">${activity.price}</Card.Text>
