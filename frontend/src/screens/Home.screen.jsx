@@ -1,8 +1,21 @@
+import { useState, useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
 import Activity from "../components/feature-specific/Activity.component.jsx";
 import activities from "../activities.js";
+import axios from "axios";
 
 const HomeScreen = () => {
+  const [activities, setActivities] = useState([]);
+
+  useEffect(() => {
+    const fetchActivities = async () => {
+      const { data } = await axios.get("/api/activities");
+      setActivities(data);
+    };
+
+    fetchActivities();
+  }, []);
+
   return (
     <>
       <h1>Featured Events</h1>

@@ -1,17 +1,25 @@
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Row, Col, Image, ListGroup, Card, Button } from "react-bootstrap";
 import Rating from "../components/feature-specific/Rating.component";
-import activities from "../activities";
+import axios from "axios";
 
 const ActivityScreen = () => {
+  const [activity, setActivity] = useState({});
+
   const { id: activityId } = useParams();
+
+  useEffect(() => {
+    const fetchActivity = async () => {
+      const { data } = await axios.get(`/api/activities/${activityId}`);
+      setActivity(data);
+    };
+
+    fetchActivity();
+  }, [activityId]);
+
   //   console.log("here id:", activityId);
-  //   console.log(activities.find((activity) => activity._id));
-  const activity = activities.find(
-    (activity) => activity._id === Number(activityId)
-  );
-  console.log(activity);
 
   return (
     <>

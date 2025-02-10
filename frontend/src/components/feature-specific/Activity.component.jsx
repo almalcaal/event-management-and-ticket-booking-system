@@ -5,12 +5,12 @@ import Rating from "./Rating.component.jsx";
 const Activity = ({ activity }) => {
   return (
     <Card className="my-3 p-3 rounded">
-      <Link to={`/activity/${activity._id}`}>
+      <Link to={`/activities/${activity._id}`}>
         <Card.Img src={activity.image} variant="top" />
       </Link>
 
       <Card.Body>
-        <Link to={`/activity/${activity._id}`}>
+        <Link to={`/activities/${activity._id}`}>
           <Card.Title as="div" className="activity-title">
             <strong>{activity.name}</strong>
           </Card.Title>
