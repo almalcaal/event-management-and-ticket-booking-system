@@ -16,9 +16,15 @@
   "main": "server.js",
   "scripts": {
     "start": "node backend/server.js",
+    "server": "node --watch backend/server.js",
+    "client": "npm run dev --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
   }
 }
