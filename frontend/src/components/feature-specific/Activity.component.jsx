@@ -1,5 +1,6 @@
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import Rating from "./Rating.component.jsx";
 
 const Activity = ({ activity }) => {
   return (
@@ -10,11 +11,18 @@ const Activity = ({ activity }) => {
 
       <Card.Body>
         <Link to={`/activity/${activity._id}`}>
-          <Card.Title as="div">
+          <Card.Title as="div" className="activity-title">
             <strong>{activity.name}</strong>
           </Card.Title>
         </Link>
       </Card.Body>
+
+      <Card.Text as="div">
+        <Rating
+          value={activity.rating}
+          text={`${activity.numReviews} reviews`}
+        />
+      </Card.Text>
 
       <Card.Text as="h3">${activity.price}</Card.Text>
     </Card>
