@@ -68,7 +68,7 @@ const activitySchema = mongoose.Schema(
       required: true,
       default: 0,
     },
-    seatsLeft: {
+    spotsLeft: {
       type: Number,
       required: true,
       default: 0,

@@ -1,7 +1,6 @@
 // _id will be added via mongodb
 const activities = [
   {
-    _id: 1,
     name: "Baking Classes With Your Kids",
     image: "/images/image.jpg",
     description:
@@ -14,7 +13,6 @@ const activities = [
     numReviews: 92,
   },
   {
-    _id: 2,
     name: "All You Care to Game!",
     image: "/images/image.jpg",
     description:
@@ -27,7 +25,6 @@ const activities = [
     numReviews: 438,
   },
   {
-    _id: 3,
     name: "Bring your own camera and flip!",
     image: "/images/image.jpg",
     description:
@@ -40,7 +37,6 @@ const activities = [
     numReviews: 52,
   },
   {
-    _id: 4,
     name: "Beach Gliding",
     image: "/images/image.jpg",
     description:
@@ -53,7 +49,6 @@ const activities = [
     numReviews: 72,
   },
   {
-    _id: 5,
     name: "Hike with Strangers",
     image: "/images/image.jpg",
     description:
@@ -66,7 +61,6 @@ const activities = [
     numReviews: 80,
   },
   {
-    _id: 6,
     name: "Boat with a new friend!",
     image: "/images/image.jpg",
     description:
