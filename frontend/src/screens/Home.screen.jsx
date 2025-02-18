@@ -4,7 +4,7 @@ import activities from "../activities.js";
 import { useGetActivitiesQuery } from "../slices/activitiesApi.slice.js";
 
 const HomeScreen = () => {
-  const { data: activites, isLoading, error } = useGetActivitiesQuery();
+  const { data: activities, isLoading, error } = useGetActivitiesQuery();
 
   return (
     <>

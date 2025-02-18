@@ -9,7 +9,14 @@ export const activitiesApiSlice = apiSlice.injectEndpoints({
       }),
       keepUnusedDataFor: 5,
     }),
+    getActivityDetails: builder.query({
+      query: (activityId) => ({
+        url: `${ACTIVITIES_URL}/${activityId}`,
+      }),
+      keepUnusedDataFor: 5,
+    }),
   }),
 });
 
-export const { useGetActivitiesQuery } = activitiesApiSlice;
+export const { useGetActivitiesQuery, useGetActivityDetailsQuery } =
+  activitiesApiSlice;

@@ -1,88 +1,91 @@
-import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Row, Col, Image, ListGroup, Card, Button } from "react-bootstrap";
-import Rating from "../components/feature-specific/Rating.component";
-import axios from "axios";
+import Rating from "../components/feature-specific/Rating.component.jsx";
+import { useGetActivityDetailsQuery } from "../slices/activitiesApi.slice.js";
 
 const ActivityScreen = () => {
-  const [activity, setActivity] = useState({});
-
   const { id: activityId } = useParams();
 
-  useEffect(() => {
-    const fetchActivity = async () => {
-      const { data } = await axios.get(`/api/activities/${activityId}`);
-      setActivity(data);
-    };
-
-    fetchActivity();
-  }, [activityId]);
-
-  //   console.log("here id:", activityId);
+  const {
+    data: activity,
+    isLoading,
+    error,
+  } = useGetActivityDetailsQuery(activityId);
 
   return (
     <>
       <Link to="/" className="btn btn-light my-3">
         Go Back
       </Link>
-      <Row>
-        <Col md={5}>
-          <Image src={activity.image} alt={activity.name} fluid />
-        </Col>
 
-        <Col md={4}>
-          <ListGroup variant="flush">
-            <ListGroup.Item>
-              <h3>{activity.name}</h3>
-            </ListGroup.Item>
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : error ? (
+        <div>{error?.data?.message || error.error}</div>
+      ) : (
+        <>
+          <Row>
+            <Col md={5}>
+              <Image src={activity.image} alt={activity.name} fluid />
+            </Col>
 
-            <ListGroup.Item>
-              <Rating
-                value={activity.rating}
-                text={`${activity.numReviews} reviews`}
-              />
-            </ListGroup.Item>
-            <ListGroup.Item>Price: ${activity.price}</ListGroup.Item>
-            <ListGroup.Item>Description: {activity.description}</ListGroup.Item>
-          </ListGroup>
-        </Col>
-        <Col md={3}>
-          <Card>
-            <ListGroup variant="flush">
-              <ListGroup.Item>
-                <Row>
-                  <Col>Price:</Col>
-                  <Col>
-                    <strong>${activity.price}</strong>
-                  </Col>
-                </Row>
-              </ListGroup.Item>
+            <Col md={4}>
+              <ListGroup variant="flush">
+                <ListGroup.Item>
+                  <h3>{activity.name}</h3>
+                </ListGroup.Item>
 
-              <ListGroup.Item>
-                <Row>
-                  <Col>Status:</Col>
-                  <Col>
-                    {activity.spotsLeft > 0
-                      ? `${activity.spotsLeft} spots left`
-                      : `${activity.spotsLeft} spots`}
-                  </Col>
-                </Row>
-              </ListGroup.Item>
+                <ListGroup.Item>
+                  <Rating
+                    value={activity.rating}
+                    text={`${activity.numReviews} reviews`}
+                  />
+                </ListGroup.Item>
+                <ListGroup.Item>Price: ${activity.price}</ListGroup.Item>
+                <ListGroup.Item>
+                  Description: {activity.description}
+                </ListGroup.Item>
+              </ListGroup>
+            </Col>
+            <Col md={3}>
+              <Card>
+                <ListGroup variant="flush">
+                  <ListGroup.Item>
+                    <Row>
+                      <Col>Price:</Col>
+                      <Col>
+                        <strong>${activity.price}</strong>
+                      </Col>
+                    </Row>
+                  </ListGroup.Item>
 
-              <ListGroup.Item>
-                <Button
-                  className="btn-block"
-                  type="button"
-                  disabled={activity.spotsLeft === 0}
-                >
-                  Add To Cart
-                </Button>
-              </ListGroup.Item>
-            </ListGroup>
-          </Card>
-        </Col>
-      </Row>
+                  <ListGroup.Item>
+                    <Row>
+                      <Col>Status:</Col>
+                      <Col>
+                        {activity.spotsLeft > 0
+                          ? `${activity.spotsLeft} spots left`
+                          : `${activity.spotsLeft} spots`}
+                      </Col>
+                    </Row>
+                  </ListGroup.Item>
+
+                  <ListGroup.Item>
+                    <Button
+                      className="btn-block"
+                      type="button"
+                      disabled={activity.spotsLeft === 0}
+                    >
+                      Add To Cart
+                    </Button>
+                  </ListGroup.Item>
+                </ListGroup>
+              </Card>
+            </Col>
+          </Row>
+        </>
+      )}
     </>
   );
 };
