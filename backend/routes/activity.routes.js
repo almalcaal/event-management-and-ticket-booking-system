@@ -16,12 +16,13 @@ router.get(
   "/:id",
   asyncHandler(async (req, res) => {
     const activity = await Activity.findById(req.params.id);
+
     if (activity) {
       res.json(activity);
-      return;
+    } else {
+      res.status(404);
+      throw new Error("Resource not found");
     }
-
-    res.status(404).json({ message: "Activity not found" });
   })
 );
 
