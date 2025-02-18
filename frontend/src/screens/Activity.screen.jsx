@@ -1,6 +1,17 @@
-import { useParams } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../slices/cart.slice.js";
 import { Link } from "react-router-dom";
-import { Row, Col, Image, ListGroup, Card, Button } from "react-bootstrap";
+import {
+  Row,
+  Col,
+  Image,
+  ListGroup,
+  Card,
+  Button,
+  Form,
+} from "react-bootstrap";
 import { useGetActivityDetailsQuery } from "../slices/activitiesApi.slice.js";
 import Rating from "../components/feature-specific/Rating.component.jsx";
 import Loader from "../components/common/Loader.component.jsx";
@@ -8,6 +19,16 @@ import Message from "../components/common/Message.component.jsx";
 
 const ActivityScreen = () => {
   const { id: activityId } = useParams();
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [quantity, setQuantity] = useState(1);
+
+  const addToCartHandler = () => {
+    dispatch(addToCart({ ...activity, quantity }));
+    navigate("/cart");
+  };
 
   const {
     data: activity,
@@ -75,11 +96,35 @@ const ActivityScreen = () => {
                     </Row>
                   </ListGroup.Item>
 
+                  {activity.spotsLeft > 0 && (
+                    <ListGroup.Item>
+                      <Row>
+                        <Col>Tickets</Col>
+                        <Col>
+                          <Form.Control
+                            as="select"
+                            value={quantity}
+                            onChange={(e) =>
+                              setQuantity(Number(e.target.value))
+                            }
+                          >
+                            {[...Array(activity.spotsLeft).keys()].map((x) => (
+                              <option key={x + 1} value={x + 1}>
+                                {x + 1}
+                              </option>
+                            ))}
+                          </Form.Control>
+                        </Col>
+                      </Row>
+                    </ListGroup.Item>
+                  )}
+
                   <ListGroup.Item>
                     <Button
                       className="btn-block"
                       type="button"
                       disabled={activity.spotsLeft === 0}
+                      onClick={addToCartHandler}
                     >
                       Add To Cart
                     </Button>
