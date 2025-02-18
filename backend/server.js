@@ -1,8 +1,12 @@
 import express from "express";
 import dotenv from "dotenv";
 dotenv.config();
-import activities from "./data/activities.js";
+import connectDB from "./config/db.js";
+import activityRoutes from "./routes/activity.routes.js";
+import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
+
 const PORT = process.env.PORT || 5000;
+connectDB();
 
 const app = express();
 
@@ -10,16 +14,10 @@ app.get("/", (req, res) => {
   res.send("API is running...");
 });
 
-app.get("/api/activities", (req, res) => {
-  res.json(activities);
-});
+app.use("/api/activities", activityRoutes);
 
-app.get("/api/activities/:id", (req, res) => {
-  const activity = activities.find(
-    (activity) => activity._id === Number(req.params.id)
-  );
-  res.json(activity);
-});
+app.use(notFound);
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
