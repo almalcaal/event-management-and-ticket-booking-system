@@ -1,8 +1,10 @@
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Row, Col, Image, ListGroup, Card, Button } from "react-bootstrap";
-import Rating from "../components/feature-specific/Rating.component.jsx";
 import { useGetActivityDetailsQuery } from "../slices/activitiesApi.slice.js";
+import Rating from "../components/feature-specific/Rating.component.jsx";
+import Loader from "../components/common/Loader.component.jsx";
+import Message from "../components/common/Message.component.jsx";
 
 const ActivityScreen = () => {
   const { id: activityId } = useParams();
@@ -20,9 +22,11 @@ const ActivityScreen = () => {
       </Link>
 
       {isLoading ? (
-        <div>Loading...</div>
+        <Loader />
       ) : error ? (
-        <div>{error?.data?.message || error.error}</div>
+        <Message variant="danger">
+          {error?.data?.message || error.error}
+        </Message>
       ) : (
         <>
           <Row>

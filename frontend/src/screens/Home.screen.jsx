@@ -2,6 +2,8 @@ import { Row, Col } from "react-bootstrap";
 import Activity from "../components/feature-specific/Activity.component.jsx";
 import activities from "../activities.js";
 import { useGetActivitiesQuery } from "../slices/activitiesApi.slice.js";
+import Loader from "../components/common/Loader.component.jsx";
+import Message from "../components/common/Message.component.jsx";
 
 const HomeScreen = () => {
   const { data: activities, isLoading, error } = useGetActivitiesQuery();
@@ -9,9 +11,11 @@ const HomeScreen = () => {
   return (
     <>
       {isLoading ? (
-        <div>Loading...</div>
+        <Loader />
       ) : error ? (
-        <div>{error?.data?.message || error.error}</div>
+        <Message variant="danger">
+          {error?.data?.message || error.error}
+        </Message>
       ) : (
         <>
           <h1>Featured Events</h1>
