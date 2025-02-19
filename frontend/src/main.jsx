@@ -15,6 +15,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import HomeScreen from "./screens/Home.screen.jsx";
 import ActivityScreen from "./screens/Activity.screen.jsx";
 import CartScreen from "./screens/Cart.screen.jsx";
+import LoginScreen from "./screens/Login.screen.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -22,6 +23,7 @@ const router = createBrowserRouter(
       <Route index={true} path="/" element={<HomeScreen />} />
       <Route path="/activities/:id" element={<ActivityScreen />} />
       <Route path="/cart" element={<CartScreen />} />
+      <Route path="/login" element={<LoginScreen />} />
     </Route>
   )
 );
