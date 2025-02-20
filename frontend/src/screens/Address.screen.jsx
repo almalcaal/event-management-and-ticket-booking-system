@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import FormContainer from "../components/common/FormContainer.component.jsx";
+import CheckoutSteps from "../components/feature-specific/CheckoutSteps.component.jsx";
 
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -26,6 +27,7 @@ const AddressScreen = () => {
 
   return (
     <FormContainer>
+      <CheckoutSteps step1 step2 />
       <h1>Address</h1>
       <Form onSubmit={submitHandler}>
         <Form.Group className="my-2" controlId="address">
