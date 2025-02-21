@@ -5,3 +5,4 @@
 export const BASE_URL = "";
 export const ACTIVITIES_URL = "/api/activities";
 export const USERS_URL = "/api/users";
+export const ORDERS_URL = "/api/orders";

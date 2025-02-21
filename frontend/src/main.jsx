@@ -19,6 +19,7 @@ import LoginScreen from "./screens/Login.screen.jsx";
 import RegisterScreen from "./screens/Register.screen.jsx";
 import AddressScreen from "./screens/Address.screen.jsx";
 import PaymentScreen from "./screens/Payment.screen.jsx";
+import PlaceOrderScreen from "./screens/PlaceOrder.screen.jsx";
 
 import PrivateRoute from "./components/common/PrivateRoute.component.jsx";
 
@@ -34,6 +35,7 @@ const router = createBrowserRouter(
       <Route path="" element={<PrivateRoute />}>
         <Route path="/address" element={<AddressScreen />} />
         <Route path="/payment" element={<PaymentScreen />} />
+        <Route path="/placeorder" element={<PlaceOrderScreen />} />
       </Route>
     </Route>
   )
