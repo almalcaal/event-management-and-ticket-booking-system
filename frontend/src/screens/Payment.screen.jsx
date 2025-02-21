@@ -9,13 +9,13 @@ import { savePaymentMethod } from "../slices/cart.slice.js";
 const PaymentScreen = () => {
   const navigate = useNavigate();
   const cart = useSelector((state) => state.cart);
-  const { userAddress } = cart;
+  const { address } = cart;
 
   useEffect(() => {
-    if (!userAddress.address) {
+    if (!address.street) {
       navigate("/address");
     }
-  }, [navigate, userAddress]);
+  }, [navigate, address]);
 
   const [paymentMethod, setPaymentMethod] = useState("PayPal");
 
