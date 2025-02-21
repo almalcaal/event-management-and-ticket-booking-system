@@ -9,19 +9,19 @@ import { saveAddress } from "../slices/cart.slice.js";
 
 const AddressScreen = () => {
   const cart = useSelector((state) => state.cart);
-  const { userAddress = {} } = cart;
+  const { address = {} } = cart;
 
-  const [address, setAddress] = useState(userAddress?.address || "");
-  const [city, setCity] = useState(userAddress?.city || "");
-  const [postalCode, setPostalCode] = useState(userAddress?.postalCode || "");
-  const [country, setCountry] = useState(userAddress?.country || "");
+  const [street, setStreet] = useState(address?.street || "");
+  const [city, setCity] = useState(address?.city || "");
+  const [postalCode, setPostalCode] = useState(address?.postalCode || "");
+  const [country, setCountry] = useState(address?.country || "");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(saveAddress({ address, city, postalCode, country }));
+    dispatch(saveAddress({ street, city, postalCode, country }));
     navigate("/payment");
   };
 
@@ -30,14 +30,14 @@ const AddressScreen = () => {
       <CheckoutSteps step1 step2 />
       <h1>Address</h1>
       <Form onSubmit={submitHandler}>
-        <Form.Group className="my-2" controlId="address">
+        <Form.Group className="my-2" controlId="street">
           <Form.Label>Home Address</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Enter home address"
-            value={address}
+            placeholder="Enter home street"
+            value={street}
             required
-            onChange={(e) => setAddress(e.target.value)}
+            onChange={(e) => setStreet(e.target.value)}
           ></Form.Control>
         </Form.Group>
 
