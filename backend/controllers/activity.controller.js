@@ -23,4 +23,24 @@ const getActivityById = asyncHandler(async (req, res) => {
   }
 });
 
-export { getActivities, getActivityById };
+// @desc    Create an activity
+// @route   POST /api/activities
+// @access  Private/Admin
+const createActivity = asyncHandler(async (req, res) => {
+  const activity = new Activity({
+    name: "Sample name",
+    price: 0,
+    user: req.user._id,
+    image: "/images/sample.jpg",
+    company: "Sample company",
+    category: "Sample category",
+    spotsLeft: 0,
+    numReviews: 0,
+    description: "Sample description",
+  });
+
+  const createdActivity = await activity.save();
+  res.status(201).json(createdActivity);
+});
+
+export { getActivities, getActivityById, createActivity };

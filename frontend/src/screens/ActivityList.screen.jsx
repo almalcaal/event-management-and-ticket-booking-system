@@ -3,7 +3,12 @@ import { Table, Button, Row, Col } from "react-bootstrap";
 import { FaEdit, FaPlus, FaTrash } from "react-icons/fa";
 import Message from "../components/common/Message.component.jsx";
 import Loader from "../components/common/Loader.component.jsx";
-import { useGetActivitiesQuery } from "../slices/activitiesApi.slice.js";
+import {
+  useGetActivitiesQuery,
+  useCreateActivityMutation,
+} from "../slices/activitiesApi.slice.js";
+
+import { toast } from "react-toastify";
 
 const ActivityListScreen = () => {
   const {
@@ -17,6 +22,20 @@ const ActivityListScreen = () => {
     console.log("delete");
   };
 
+  const [createActivity, { isLoading: loadingCreate }] =
+    useCreateActivityMutation();
+
+  const createActivityHandler = async () => {
+    if (window.confirm("Are you sure you want to create a new activity?")) {
+      try {
+        await createActivity();
+        refetch();
+      } catch (error) {
+        toast.error(error?.data?.message || error.error);
+      }
+    }
+  };
+
   return (
     <>
       <Row className="align-items-center">
@@ -24,11 +43,13 @@ const ActivityListScreen = () => {
           <h1>Activities</h1>
         </Col>
         <Col className="text-end">
-          <Button className="btn-sm m-3">
+          <Button className="btn-sm m-3" onClick={createActivityHandler}>
             <FaPlus /> Create Activity
           </Button>
         </Col>
       </Row>
+
+      {loadingCreate && <Loader />}
 
       {isLoading ? (
         <Loader />

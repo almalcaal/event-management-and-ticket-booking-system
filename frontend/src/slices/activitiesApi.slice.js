@@ -15,8 +15,18 @@ export const activitiesApiSlice = apiSlice.injectEndpoints({
       }),
       keepUnusedDataFor: 5,
     }),
+    createActivity: builder.mutation({
+      query: () => ({
+        url: `${PRODUCTS_URL}`,
+        method: "POST",
+      }),
+      invalidatesTags: ["Activity"],
+    }),
   }),
 });
 
-export const { useGetActivitiesQuery, useGetActivityDetailsQuery } =
-  activitiesApiSlice;
+export const {
+  useGetActivitiesQuery,
+  useGetActivityDetailsQuery,
+  useCreateActivityMutation,
+} = activitiesApiSlice;
