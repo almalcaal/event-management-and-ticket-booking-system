@@ -7,6 +7,7 @@ export const activitiesApiSlice = apiSlice.injectEndpoints({
       query: () => ({
         url: ACTIVITIES_URL,
       }),
+      providesTags: ["Activity"],
       keepUnusedDataFor: 5,
     }),
     getActivityDetails: builder.query({
@@ -22,6 +23,14 @@ export const activitiesApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Activity"],
     }),
+    updateActivity: builder.mutation({
+      query: (data) => ({
+        url: `${ACTIVITIES_URL}/${data.activityId}`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["Activity"],
+    }),
   }),
 });
 
@@ -29,4 +38,5 @@ export const {
   useGetActivitiesQuery,
   useGetActivityDetailsQuery,
   useCreateActivityMutation,
+  useUpdateActivityMutation,
 } = activitiesApiSlice;

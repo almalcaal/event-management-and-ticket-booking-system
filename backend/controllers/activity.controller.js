@@ -43,4 +43,30 @@ const createActivity = asyncHandler(async (req, res) => {
   res.status(201).json(createdActivity);
 });
 
-export { getActivities, getActivityById, createActivity };
+// @desc    Update an activity
+// @route   PUT /api/activity/:id
+// @access  Private/Admin
+const updateActivity = asyncHandler(async (req, res) => {
+  const { name, price, description, image, company, category, spotsLeft } =
+    req.body;
+
+  const activity = await Activity.findById(req.params.id);
+
+  if (activity) {
+    activity.name = name;
+    activity.price = price;
+    activity.description = description;
+    activity.image = image;
+    activity.company = company;
+    activity.category = category;
+    activity.spotsLeft = spotsLeft;
+
+    const updatedActivity = await activity.save();
+    res.json(updatedActivity);
+  } else {
+    res.status(404);
+    throw new Error("Product not found");
+  }
+});
+
+export { getActivities, getActivityById, createActivity, updateActivity };

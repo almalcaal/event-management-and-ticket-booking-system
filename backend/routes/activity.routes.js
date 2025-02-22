@@ -5,9 +5,10 @@ import {
   getActivities,
   getActivityById,
   createActivity,
+  updateActivity,
 } from "../controllers/activity.controller.js";
 
 router.route("/").get(getActivities).post(protect, admin, createActivity);
-router.route("/:id").get(getActivityById);
+router.route("/:id").get(getActivityById).put(protect, admin, updateActivity);
 
 export default router;

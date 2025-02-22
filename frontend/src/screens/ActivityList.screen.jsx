@@ -77,9 +77,9 @@ const ActivityListScreen = () => {
                   <td>{activity.name}</td>
                   <td>${activity.price}</td>
                   <td>{activity.category}</td>
-                  <td>{activity.brand}</td>
+                  <td>{activity.company}</td>
                   <td>
-                    <LinkContainer to={`/admin/product/${activity._id}/edit`}>
+                    <LinkContainer to={`/admin/activity/${activity._id}/edit`}>
                       <Button variant="light" className="btn-sm mx-2">
                         <FaEdit />
                       </Button>
