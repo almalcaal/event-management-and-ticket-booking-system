@@ -17,7 +17,7 @@ export const activitiesApiSlice = apiSlice.injectEndpoints({
     }),
     createActivity: builder.mutation({
       query: () => ({
-        url: `${PRODUCTS_URL}`,
+        url: `${ACTIVITIES_URL}`,
         method: "POST",
       }),
       invalidatesTags: ["Activity"],
