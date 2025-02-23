@@ -31,6 +31,13 @@ export const activitiesApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Activity"],
     }),
+    uploadActivityImage: builder.mutation({
+      query: (data) => ({
+        url: `/api/upload`,
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -39,4 +46,5 @@ export const {
   useGetActivityDetailsQuery,
   useCreateActivityMutation,
   useUpdateActivityMutation,
+  useUploadActivityImageMutation,
 } = activitiesApiSlice;

@@ -8,6 +8,7 @@ import activityRoutes from "./routes/activity.routes.js";
 import orderRoutes from "./routes/order.routes.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 import cookieParser from "cookie-parser";
+import uploadRoutes from "./routes/upload.routes.js";
 
 const PORT = process.env.PORT || 5000;
 connectDB();
@@ -36,6 +37,7 @@ if (process.env.NODE_ENV === "production") {
 app.use("/api/users", userRoutes);
 app.use("/api/activities", activityRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/api/upload", uploadRoutes);
 
 app.get("/api/config/paypal", (req, res) =>
   res.send({ clientId: process.env.PAYPAL_CLIENT_ID })

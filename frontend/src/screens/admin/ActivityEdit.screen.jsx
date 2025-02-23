@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import {
   useGetActivityDetailsQuery,
   useUpdateActivityMutation,
+  useUploadActivityImageMutation,
 } from "../../slices/activitiesApi.slice.js";
 
 const ActivityEditScreen = () => {
@@ -30,6 +31,9 @@ const ActivityEditScreen = () => {
 
   const [updateActivity, { isLoading: loadingUpdate }] =
     useUpdateActivityMutation();
+
+  const [uploadActivityImage, { isLoading: loadingUpload }] =
+    useUploadActivityImageMutation();
 
   const navigate = useNavigate();
 
@@ -65,6 +69,18 @@ const ActivityEditScreen = () => {
       setDescription(activity.description);
     }
   }, [activity]);
+
+  const uploadFileHandler = async (e) => {
+    const formData = new FormData();
+    formData.append("image", e.target.files[0]);
+    try {
+      const res = await uploadActivityImage(formData).unwrap();
+      toast.success(res.message);
+      setImage(res.image);
+    } catch (error) {
+      toast.error(error?.data?.message || error.error);
+    }
+  };
 
   return (
     <>
@@ -102,7 +118,21 @@ const ActivityEditScreen = () => {
               ></Form.Control>
             </Form.Group>
 
-            {/* IMAGE INPUT PLACEHOLDER */}
+            <Form.Group controlId="image">
+              <Form.Label>Image</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter image url"
+                value={image}
+                onChange={(e) => setImage(e.target.value)}
+              ></Form.Control>
+              <Form.Control
+                label="Choose File"
+                onChange={uploadFileHandler}
+                type="file"
+              ></Form.Control>
+              {loadingUpload && <Loader />}
+            </Form.Group>
 
             <Form.Group controlId="company">
               <Form.Label>Company</Form.Label>
