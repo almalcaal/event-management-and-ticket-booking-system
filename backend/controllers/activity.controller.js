@@ -44,7 +44,7 @@ const createActivity = asyncHandler(async (req, res) => {
 });
 
 // @desc    Update an activity
-// @route   PUT /api/activity/:id
+// @route   PUT /api/activities/:id
 // @access  Private/Admin
 const updateActivity = asyncHandler(async (req, res) => {
   const { name, price, description, image, company, category, spotsLeft } =
@@ -69,4 +69,25 @@ const updateActivity = asyncHandler(async (req, res) => {
   }
 });
 
-export { getActivities, getActivityById, createActivity, updateActivity };
+// @desc    Delete an activity
+// @route   DELETE /api/activities/:id
+// @access  Private/Admin
+const deleteActivity = asyncHandler(async (req, res) => {
+  const activity = await Activity.findById(req.params.id);
+
+  if (activity) {
+    await Activity.deleteOne({ _id: activity._id });
+    res.json({ message: "Activity removed" });
+  } else {
+    res.status(404);
+    throw new Error("Activity not found");
+  }
+});
+
+export {
+  getActivities,
+  getActivityById,
+  createActivity,
+  updateActivity,
+  deleteActivity,
+};

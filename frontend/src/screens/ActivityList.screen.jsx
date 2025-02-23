@@ -6,6 +6,7 @@ import Loader from "../components/common/Loader.component.jsx";
 import {
   useGetActivitiesQuery,
   useCreateActivityMutation,
+  useDeleteActivityMutation,
 } from "../slices/activitiesApi.slice.js";
 
 import { toast } from "react-toastify";
@@ -18,10 +19,6 @@ const ActivityListScreen = () => {
     refetch,
   } = useGetActivitiesQuery();
 
-  const deleteHandler = () => {
-    console.log("delete");
-  };
-
   const [createActivity, { isLoading: loadingCreate }] =
     useCreateActivityMutation();
 
@@ -29,6 +26,20 @@ const ActivityListScreen = () => {
     if (window.confirm("Are you sure you want to create a new activity?")) {
       try {
         await createActivity();
+        refetch();
+      } catch (error) {
+        toast.error(error?.data?.message || error.error);
+      }
+    }
+  };
+
+  const [deleteActivity, { isLoading: loadingDelete }] =
+    useDeleteActivityMutation();
+
+  const deleteHandler = async (id) => {
+    if (window.confirm("Are you sure")) {
+      try {
+        await deleteActivity(id);
         refetch();
       } catch (error) {
         toast.error(error?.data?.message || error.error);
@@ -50,6 +61,8 @@ const ActivityListScreen = () => {
       </Row>
 
       {loadingCreate && <Loader />}
+
+      {loadingDelete && <Loader />}
 
       {isLoading ? (
         <Loader />
