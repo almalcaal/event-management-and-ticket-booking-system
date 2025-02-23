@@ -3,13 +3,25 @@ import { Table, Button } from "react-bootstrap";
 import { FaTrash, FaEdit, FaCheck, FaTimes } from "react-icons/fa";
 import Message from "../../components/common/Message.component.jsx";
 import Loader from "../../components/common/Loader.component.jsx";
-import { useGetUsersQuery } from "../../slices/usersApi.slice.js";
+import {
+  useGetUsersQuery,
+  useDeleteUserMutation,
+} from "../../slices/usersApi.slice.js";
 
 const UserListScreen = () => {
   const { data: users, refetch, isLoading, error } = useGetUsersQuery();
 
+  const [deleteUser] = useDeleteUserMutation();
+
   const deleteHandler = async (id) => {
-    console.log("delete");
+    if (window.confirm("Are you sure")) {
+      try {
+        await deleteUser(id);
+        refetch();
+      } catch (error) {
+        toast.error(error?.data?.message || error.error);
+      }
+    }
   };
 
   return (
