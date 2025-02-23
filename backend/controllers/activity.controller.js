@@ -84,10 +84,52 @@ const deleteActivity = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Create new review
+// @route   POST /api/activities/:id/reviews
+// @access  Private
+const createActivityReview = asyncHandler(async (req, res) => {
+  const { rating, comment } = req.body;
+
+  const activity = await Activity.findById(req.params.id);
+
+  if (activity) {
+    const alreadyReviewed = activity.reviews.find(
+      (r) => r.user.toString() === req.user._id.toString()
+    );
+
+    if (alreadyReviewed) {
+      res.status(400);
+      throw new Error("Activity already reviewed");
+    }
+
+    const review = {
+      name: req.user.name,
+      rating: Number(rating),
+      comment,
+      user: req.user._id,
+    };
+
+    activity.reviews.push(review);
+
+    activity.numReviews = activity.reviews.length;
+
+    activity.rating =
+      activity.reviews.reduce((acc, item) => item.rating + acc, 0) /
+      activity.reviews.length;
+
+    await activity.save();
+    res.status(201).json({ message: "Review added" });
+  } else {
+    res.status(404);
+    throw new Error("Activity not found");
+  }
+});
+
 export {
   getActivities,
   getActivityById,
   createActivity,
   updateActivity,
   deleteActivity,
+  createActivityReview,
 };
