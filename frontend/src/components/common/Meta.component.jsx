@@ -1,7 +1,7 @@
 const Meta = ({
-  title = "Welcome to FakeShop",
-  description = "We sell fake stuff",
-  keywords = "fake, stuff, not real, buy fake stuff",
+  title = "Welcome to FakeEvents",
+  description = "We sell fake events",
+  keywords = "fake, events, not real, buy fake events",
 }) => {
   return (
     <>

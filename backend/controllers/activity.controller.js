@@ -5,7 +5,7 @@ import Activity from "../models/activity.model.js";
 // @route       GET /api/activities
 // @access      Public
 const getActivities = asyncHandler(async (req, res) => {
-  const pageSize = 4;
+  const pageSize = 8;
   const page = Number(req.query.pageNumber) || 1;
 
   const keyword = req.query.keyword
