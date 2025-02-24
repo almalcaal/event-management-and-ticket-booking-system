@@ -9,6 +9,8 @@ import Message from "../components/common/Message.component.jsx";
 
 import Paginate from "../components/common/Paginate.component.jsx";
 
+import ActivityCarousel from "../components/feature-specific/ActivityCarousel.component.jsx";
+
 const HomeScreen = () => {
   const { pageNumber, keyword } = useParams();
 
@@ -19,9 +21,14 @@ const HomeScreen = () => {
 
   return (
     <>
-      <Link to="/" className="btn btn-light mb-2">
-        Go Back
-      </Link>
+      {!keyword ? (
+        <ActivityCarousel />
+      ) : (
+        <Link to="/" className="btn btn-light">
+          Go Back
+        </Link>
+      )}
+
       {isLoading ? (
         <Loader />
       ) : error ? (

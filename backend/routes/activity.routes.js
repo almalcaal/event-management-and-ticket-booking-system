@@ -8,7 +8,10 @@ import {
   updateActivity,
   deleteActivity,
   createActivityReview,
+  getTopActivities,
 } from "../controllers/activity.controller.js";
+
+router.get("/top", getTopActivities);
 
 router.route("/").get(getActivities).post(protect, admin, createActivity);
 router

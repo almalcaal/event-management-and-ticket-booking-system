@@ -53,6 +53,10 @@ export const activitiesApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Activity"],
     }),
+    getTopActivities: builder.query({
+      query: () => `${ACTIVITIES_URL}/top`,
+      keepUnusedDataFor: 5,
+    }),
   }),
 });
 
@@ -64,4 +68,5 @@ export const {
   useUploadActivityImageMutation,
   useDeleteActivityMutation,
   useCreateReviewMutation,
+  useGetTopActivitiesQuery,
 } = activitiesApiSlice;

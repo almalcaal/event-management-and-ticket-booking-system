@@ -9,7 +9,6 @@ import {
 import { Provider } from "react-redux";
 import store from "./store.js";
 import "./assets/styles/bootstrap.custom.css";
-import "./assets/styles/index.css";
 import App from "./App.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import HomeScreen from "./screens/Home.screen.jsx";
@@ -32,6 +31,7 @@ import PrivateRoute from "./components/common/PrivateRoute.component.jsx";
 import AdminRoute from "./components/common/AdminRoute.component.jsx";
 
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+import "./assets/styles/index.css";
 
 const router = createBrowserRouter(
   createRoutesFromElements(

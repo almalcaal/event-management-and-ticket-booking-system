@@ -141,6 +141,15 @@ const createActivityReview = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Get top rated activities
+// @route   GET /api/activities/top
+// @access  Public
+const getTopActivities = asyncHandler(async (req, res) => {
+  const activities = await Activity.find({}).sort({ rating: -1 }).limit(3);
+
+  res.status(200).json(activities);
+});
+
 export {
   getActivities,
   getActivityById,
@@ -148,4 +157,5 @@ export {
   updateActivity,
   deleteActivity,
   createActivityReview,
+  getTopActivities,
 };
