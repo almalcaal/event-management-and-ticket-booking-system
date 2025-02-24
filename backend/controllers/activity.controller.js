@@ -18,7 +18,7 @@ const getActivities = asyncHandler(async (req, res) => {
     : {};
 
   const count = await Activity.countDocuments({ ...keyword });
-  const activities = await Activity.find()
+  const activities = await Activity.find({ ...keyword })
     .limit(pageSize)
     .skip(pageSize * (page - 1));
 
