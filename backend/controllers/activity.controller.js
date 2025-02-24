@@ -5,8 +5,15 @@ import Activity from "../models/activity.model.js";
 // @route       GET /api/activities
 // @access      Public
 const getActivities = asyncHandler(async (req, res) => {
-  const activities = await Activity.find({});
-  res.json(activities);
+  const pageSize = 4;
+  const page = Number(req.query.pageNumber) || 1;
+
+  const count = await Activity.countDocuments();
+  const activities = await Activity.find()
+    .limit(pageSize)
+    .skip(pageSize * (page - 1));
+
+  res.json({ activities, page, pages: Math.ceil(count / pageSize) });
 });
 
 // @desc        Fetch single activity

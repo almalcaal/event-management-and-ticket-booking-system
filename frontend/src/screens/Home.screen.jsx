@@ -1,12 +1,15 @@
 import { Row, Col } from "react-bootstrap";
 import Activity from "../components/feature-specific/Activity.component.jsx";
+import { useParams } from "react-router-dom";
 import activities from "../activities.js";
 import { useGetActivitiesQuery } from "../slices/activitiesApi.slice.js";
 import Loader from "../components/common/Loader.component.jsx";
 import Message from "../components/common/Message.component.jsx";
 
 const HomeScreen = () => {
-  const { data: activities, isLoading, error } = useGetActivitiesQuery();
+  const { pageNumber } = useParams();
+
+  const { data, isLoading, error } = useGetActivitiesQuery({ pageNumber });
 
   return (
     <>
@@ -20,7 +23,7 @@ const HomeScreen = () => {
         <>
           <h1>Featured Events</h1>
           <Row>
-            {activities.map((activity) => (
+            {data.activities.map((activity) => (
               <Col key={activity._id} sm={12} md={6} lg={4} xl={3}>
                 <Activity activity={activity} />
               </Col>
