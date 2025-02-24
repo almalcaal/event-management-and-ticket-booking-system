@@ -6,6 +6,8 @@ import { useGetActivitiesQuery } from "../slices/activitiesApi.slice.js";
 import Loader from "../components/common/Loader.component.jsx";
 import Message from "../components/common/Message.component.jsx";
 
+import Paginate from "../components/common/Paginate.component.jsx";
+
 const HomeScreen = () => {
   const { pageNumber } = useParams();
 
@@ -29,6 +31,7 @@ const HomeScreen = () => {
               </Col>
             ))}
           </Row>
+          <Paginate pages={data.pages} page={data.page} />
         </>
       )}
     </>

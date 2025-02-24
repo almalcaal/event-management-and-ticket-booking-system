@@ -13,6 +13,8 @@ import { useParams } from "react-router-dom";
 
 import { toast } from "react-toastify";
 
+import Paginate from "../components/common/Paginate.component.jsx";
+
 const ActivityListScreen = () => {
   const { pageNumber } = useParams();
 
@@ -110,7 +112,8 @@ const ActivityListScreen = () => {
               ))}
             </tbody>
           </Table>
-          {/* PAGINATE PLACEHOLDER */}
+
+          <Paginate pages={data.pages} page={data.page} isAdmin={true} />
         </>
       )}
     </>
