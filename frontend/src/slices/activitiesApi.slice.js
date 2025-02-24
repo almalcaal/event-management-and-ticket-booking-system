@@ -4,9 +4,9 @@ import { apiSlice } from "./api.slice.js";
 export const activitiesApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getActivities: builder.query({
-      query: ({ pageNumber }) => ({
+      query: ({ keyword, pageNumber }) => ({
         url: ACTIVITIES_URL,
-        params: { pageNumber },
+        params: { keyword, pageNumber },
       }),
       providesTags: ["Activity"],
       keepUnusedDataFor: 5,

@@ -8,7 +8,16 @@ const getActivities = asyncHandler(async (req, res) => {
   const pageSize = 4;
   const page = Number(req.query.pageNumber) || 1;
 
-  const count = await Activity.countDocuments();
+  const keyword = req.query.keyword
+    ? {
+        name: {
+          $regex: req.query.keyword,
+          $options: "i",
+        },
+      }
+    : {};
+
+  const count = await Activity.countDocuments({ ...keyword });
   const activities = await Activity.find()
     .limit(pageSize)
     .skip(pageSize * (page - 1));

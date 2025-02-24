@@ -1,6 +1,7 @@
 import { Row, Col } from "react-bootstrap";
 import Activity from "../components/feature-specific/Activity.component.jsx";
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import activities from "../activities.js";
 import { useGetActivitiesQuery } from "../slices/activitiesApi.slice.js";
 import Loader from "../components/common/Loader.component.jsx";
@@ -9,12 +10,18 @@ import Message from "../components/common/Message.component.jsx";
 import Paginate from "../components/common/Paginate.component.jsx";
 
 const HomeScreen = () => {
-  const { pageNumber } = useParams();
+  const { pageNumber, keyword } = useParams();
 
-  const { data, isLoading, error } = useGetActivitiesQuery({ pageNumber });
+  const { data, isLoading, error } = useGetActivitiesQuery({
+    pageNumber,
+    keyword,
+  });
 
   return (
     <>
+      <Link to="/" className="btn btn-light mb-2">
+        Go Back
+      </Link>
       {isLoading ? (
         <Loader />
       ) : error ? (
@@ -31,7 +38,11 @@ const HomeScreen = () => {
               </Col>
             ))}
           </Row>
-          <Paginate pages={data.pages} page={data.page} />
+          <Paginate
+            pages={data.pages}
+            page={data.page}
+            keyword={keyword ? keyword : ""}
+          />
         </>
       )}
     </>
