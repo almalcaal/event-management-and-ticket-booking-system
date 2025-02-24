@@ -94,7 +94,7 @@ const createActivityReview = asyncHandler(async (req, res) => {
 
   if (activity) {
     const alreadyReviewed = activity.reviews.find(
-      (r) => r.user.toString() === req.user._id.toString()
+      (review) => review.user.toString() === req.user._id.toString()
     );
 
     if (alreadyReviewed) {

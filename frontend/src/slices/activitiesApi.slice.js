@@ -44,6 +44,14 @@ export const activitiesApiSlice = apiSlice.injectEndpoints({
         method: "DELETE",
       }),
     }),
+    createReview: builder.mutation({
+      query: (data) => ({
+        url: `${ACTIVITIES_URL}/${data.activityId}/reviews`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Activity"],
+    }),
   }),
 });
 
@@ -54,4 +62,5 @@ export const {
   useUpdateActivityMutation,
   useUploadActivityImageMutation,
   useDeleteActivityMutation,
+  useCreateReviewMutation,
 } = activitiesApiSlice;
