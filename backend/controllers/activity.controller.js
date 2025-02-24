@@ -5,8 +5,24 @@ import Activity from "../models/activity.model.js";
 // @route       GET /api/activities
 // @access      Public
 const getActivities = asyncHandler(async (req, res) => {
-  const activities = await Activity.find({});
-  res.json(activities);
+  const pageSize = 4;
+  const page = Number(req.query.pageNumber) || 1;
+
+  const keyword = req.query.keyword
+    ? {
+        name: {
+          $regex: req.query.keyword,
+          $options: "i",
+        },
+      }
+    : {};
+
+  const count = await Activity.countDocuments({ ...keyword });
+  const activities = await Activity.find({ ...keyword })
+    .limit(pageSize)
+    .skip(pageSize * (page - 1));
+
+  res.json({ activities, page, pages: Math.ceil(count / pageSize) });
 });
 
 // @desc        Fetch single activity
@@ -84,10 +100,62 @@ const deleteActivity = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Create new review
+// @route   POST /api/activities/:id/reviews
+// @access  Private
+const createActivityReview = asyncHandler(async (req, res) => {
+  const { rating, comment } = req.body;
+
+  const activity = await Activity.findById(req.params.id);
+
+  if (activity) {
+    const alreadyReviewed = activity.reviews.find(
+      (review) => review.user.toString() === req.user._id.toString()
+    );
+
+    if (alreadyReviewed) {
+      res.status(400);
+      throw new Error("Activity already reviewed");
+    }
+
+    const review = {
+      name: req.user.name,
+      rating: Number(rating),
+      comment,
+      user: req.user._id,
+    };
+
+    activity.reviews.push(review);
+
+    activity.numReviews = activity.reviews.length;
+
+    activity.rating =
+      activity.reviews.reduce((acc, item) => item.rating + acc, 0) /
+      activity.reviews.length;
+
+    await activity.save();
+    res.status(201).json({ message: "Review added" });
+  } else {
+    res.status(404);
+    throw new Error("Activity not found");
+  }
+});
+
+// @desc    Get top rated activities
+// @route   GET /api/activities/top
+// @access  Public
+const getTopActivities = asyncHandler(async (req, res) => {
+  const activities = await Activity.find({}).sort({ rating: -1 }).limit(3);
+
+  res.status(200).json(activities);
+});
+
 export {
   getActivities,
   getActivityById,
   createActivity,
   updateActivity,
   deleteActivity,
+  createActivityReview,
+  getTopActivities,
 };

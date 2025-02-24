@@ -9,15 +9,18 @@ import {
   useDeleteActivityMutation,
 } from "../slices/activitiesApi.slice.js";
 
+import { useParams } from "react-router-dom";
+
 import { toast } from "react-toastify";
 
+import Paginate from "../components/common/Paginate.component.jsx";
+
 const ActivityListScreen = () => {
-  const {
-    data: activities,
-    isLoading,
-    error,
-    refetch,
-  } = useGetActivitiesQuery();
+  const { pageNumber } = useParams();
+
+  const { data, isLoading, error, refetch } = useGetActivitiesQuery({
+    pageNumber,
+  });
 
   const [createActivity, { isLoading: loadingCreate }] =
     useCreateActivityMutation();
@@ -84,7 +87,7 @@ const ActivityListScreen = () => {
               </tr>
             </thead>
             <tbody>
-              {activities.map((activity) => (
+              {data.activities.map((activity) => (
                 <tr key={activity._id}>
                   <td>{activity._id}</td>
                   <td>{activity.name}</td>
@@ -109,7 +112,8 @@ const ActivityListScreen = () => {
               ))}
             </tbody>
           </Table>
-          {/* PAGINATE PLACEHOLDER */}
+
+          <Paginate pages={data.pages} page={data.page} isAdmin={true} />
         </>
       )}
     </>

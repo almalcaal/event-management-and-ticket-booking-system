@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../slices/cart.slice.js";
 import { Link } from "react-router-dom";
 import {
@@ -12,10 +12,16 @@ import {
   Button,
   Form,
 } from "react-bootstrap";
-import { useGetActivityDetailsQuery } from "../slices/activitiesApi.slice.js";
+import {
+  useGetActivityDetailsQuery,
+  useCreateReviewMutation,
+} from "../slices/activitiesApi.slice.js";
 import Rating from "../components/feature-specific/Rating.component.jsx";
 import Loader from "../components/common/Loader.component.jsx";
 import Message from "../components/common/Message.component.jsx";
+
+import { toast } from "react-toastify";
+import Meta from "../components/common/Meta.component.jsx";
 
 const ActivityScreen = () => {
   const { id: activityId } = useParams();
@@ -24,6 +30,9 @@ const ActivityScreen = () => {
   const navigate = useNavigate();
 
   const [quantity, setQuantity] = useState(1);
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState("");
+  const { userInfo } = useSelector((state) => state.auth);
 
   const addToCartHandler = () => {
     dispatch(addToCart({ ...activity, quantity }));
@@ -33,8 +42,28 @@ const ActivityScreen = () => {
   const {
     data: activity,
     isLoading,
+    refetch,
     error,
   } = useGetActivityDetailsQuery(activityId);
+
+  const [createReview, { isLoading: loadingActivityReview }] =
+    useCreateReviewMutation();
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+
+    try {
+      await createReview({
+        activityId,
+        rating,
+        comment,
+      }).unwrap();
+      refetch();
+      toast.success("Review created successfully");
+    } catch (error) {
+      toast.error(error?.data?.message || error.error);
+    }
+  };
 
   return (
     <>
@@ -50,6 +79,7 @@ const ActivityScreen = () => {
         </Message>
       ) : (
         <>
+          <Meta title={`Fakeshop | ${activity.name}`} />
           <Row>
             <Col md={5}>
               <Image src={activity.image} alt={activity.name} fluid />
@@ -131,6 +161,70 @@ const ActivityScreen = () => {
                   </ListGroup.Item>
                 </ListGroup>
               </Card>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col md={6}>
+              <h2>Reviews</h2>
+              {activity.reviews.length === 0 && <Message>No Reviews</Message>}
+              <ListGroup variant="flush">
+                {activity.reviews.map((review) => (
+                  <ListGroup.Item key={review._id}>
+                    <strong>{review.name}</strong>
+                    <Rating value={review.rating} />
+                    <p>{review.createdAt.substring(0, 10)}</p>
+                    <p>{review.comment}</p>
+                  </ListGroup.Item>
+                ))}
+                <ListGroup.Item>
+                  <h2>Write a Customer Review</h2>
+
+                  {loadingActivityReview && <Loader />}
+
+                  {userInfo ? (
+                    <Form onSubmit={submitHandler}>
+                      <Form.Group className="my-2" controlId="rating">
+                        <Form.Label>Rating</Form.Label>
+                        <Form.Control
+                          as="select"
+                          required
+                          value={rating}
+                          onChange={(e) => setRating(e.target.value)}
+                        >
+                          <option value="">Select...</option>
+                          <option value="1">1 - Poor</option>
+                          <option value="2">2 - Fair</option>
+                          <option value="3">3 - Good</option>
+                          <option value="4">4 - Very Good</option>
+                          <option value="5">5 - Excellent</option>
+                        </Form.Control>
+                      </Form.Group>
+                      <Form.Group className="my-2" controlId="comment">
+                        <Form.Label>Comment</Form.Label>
+                        <Form.Control
+                          as="textarea"
+                          row="3"
+                          required
+                          value={comment}
+                          onChange={(e) => setComment(e.target.value)}
+                        ></Form.Control>
+                      </Form.Group>
+                      <Button
+                        disabled={loadingActivityReview}
+                        type="submit"
+                        variant="primary"
+                      >
+                        Submit
+                      </Button>
+                    </Form>
+                  ) : (
+                    <Message>
+                      Please <Link to="/login">sign in</Link> to write a review
+                    </Message>
+                  )}
+                </ListGroup.Item>
+              </ListGroup>
             </Col>
           </Row>
         </>

@@ -9,7 +9,6 @@ import {
 import { Provider } from "react-redux";
 import store from "./store.js";
 import "./assets/styles/bootstrap.custom.css";
-import "./assets/styles/index.css";
 import App from "./App.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import HomeScreen from "./screens/Home.screen.jsx";
@@ -32,11 +31,18 @@ import PrivateRoute from "./components/common/PrivateRoute.component.jsx";
 import AdminRoute from "./components/common/AdminRoute.component.jsx";
 
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+import "./assets/styles/index.css";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route index={true} path="/" element={<HomeScreen />} />
+      <Route path="/page/:pageNumber" element={<HomeScreen />} />
+      <Route path="/search/:keyword" element={<HomeScreen />} />
+      <Route
+        path="/search/:keyword/page/:pageNumber"
+        element={<HomeScreen />}
+      />
       <Route path="/activities/:id" element={<ActivityScreen />} />
       <Route path="/cart" element={<CartScreen />} />
       <Route path="/login" element={<LoginScreen />} />
@@ -53,6 +59,10 @@ const router = createBrowserRouter(
       <Route path="" element={<AdminRoute />}>
         <Route path="/admin/orderlist" element={<OrderListScreen />} />
         <Route path="/admin/activitylist" element={<ActivityListScreen />} />
+        <Route
+          path="/admin/activitylist/:pageNumber"
+          element={<ActivityListScreen />}
+        />
         <Route
           path="/admin/activity/:id/edit"
           element={<ActivityEditScreen />}

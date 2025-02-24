@@ -4,8 +4,9 @@ import { apiSlice } from "./api.slice.js";
 export const activitiesApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getActivities: builder.query({
-      query: () => ({
+      query: ({ keyword, pageNumber }) => ({
         url: ACTIVITIES_URL,
+        params: { keyword, pageNumber },
       }),
       providesTags: ["Activity"],
       keepUnusedDataFor: 5,
@@ -44,6 +45,18 @@ export const activitiesApiSlice = apiSlice.injectEndpoints({
         method: "DELETE",
       }),
     }),
+    createReview: builder.mutation({
+      query: (data) => ({
+        url: `${ACTIVITIES_URL}/${data.activityId}/reviews`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Activity"],
+    }),
+    getTopActivities: builder.query({
+      query: () => `${ACTIVITIES_URL}/top`,
+      keepUnusedDataFor: 5,
+    }),
   }),
 });
 
@@ -54,4 +67,6 @@ export const {
   useUpdateActivityMutation,
   useUploadActivityImageMutation,
   useDeleteActivityMutation,
+  useCreateReviewMutation,
+  useGetTopActivitiesQuery,
 } = activitiesApiSlice;

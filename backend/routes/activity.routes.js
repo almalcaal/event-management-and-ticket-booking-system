@@ -7,7 +7,11 @@ import {
   createActivity,
   updateActivity,
   deleteActivity,
+  createActivityReview,
+  getTopActivities,
 } from "../controllers/activity.controller.js";
+
+router.get("/top", getTopActivities);
 
 router.route("/").get(getActivities).post(protect, admin, createActivity);
 router
@@ -15,5 +19,7 @@ router
   .get(getActivityById)
   .put(protect, admin, updateActivity)
   .delete(protect, admin, deleteActivity);
+
+router.route("/:id/reviews").post(protect, createActivityReview);
 
 export default router;
