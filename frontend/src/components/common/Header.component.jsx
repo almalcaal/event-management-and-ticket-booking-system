@@ -3,8 +3,11 @@ import { FaUser, FaShoppingCart } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import logo from "../../assets/logo.svg";
 import { LinkContainer } from "react-router-bootstrap";
+
 import { useLogoutMutation } from "../../slices/usersApi.slice.js";
 import { logout } from "../../slices/auth.slice.js";
+import { resetCart } from "../../slices/cart.slice.js";
+
 import { useNavigate } from "react-router-dom";
 import SearchBox from "../../screens/SearchBox.component.jsx";
 
@@ -21,6 +24,7 @@ const Header = () => {
     try {
       await logoutApiCall().unwrap();
       dispatch(logout());
+      dispatch(resetCart());
       navigate("/login");
     } catch (error) {
       console.error(error);
