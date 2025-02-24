@@ -21,6 +21,7 @@ import Loader from "../components/common/Loader.component.jsx";
 import Message from "../components/common/Message.component.jsx";
 
 import { toast } from "react-toastify";
+import Meta from "../components/common/Meta.component.jsx";
 
 const ActivityScreen = () => {
   const { id: activityId } = useParams();
@@ -78,6 +79,7 @@ const ActivityScreen = () => {
         </Message>
       ) : (
         <>
+          <Meta title={`Fakeshop | ${activity.name}`} />
           <Row>
             <Col md={5}>
               <Image src={activity.image} alt={activity.name} fluid />

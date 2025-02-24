@@ -10,6 +10,7 @@ import Message from "../components/common/Message.component.jsx";
 import Paginate from "../components/common/Paginate.component.jsx";
 
 import ActivityCarousel from "../components/feature-specific/ActivityCarousel.component.jsx";
+import Meta from "../components/common/Meta.component.jsx";
 
 const HomeScreen = () => {
   const { pageNumber, keyword } = useParams();
@@ -37,6 +38,7 @@ const HomeScreen = () => {
         </Message>
       ) : (
         <>
+          <Meta />
           <h1>Featured Events</h1>
           <Row>
             {data.activities.map((activity) => (
