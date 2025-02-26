@@ -16,8 +16,20 @@ const ActivityCarousel = () => {
       <Carousel pause="hover" className="carousel bg-primary mb-4">
         {activities.map((activity) => (
           <Carousel.Item key={activity._id}>
-            <Link to={`/activities/${activity._id}`}>
-              <Image src={activity.image} alt={activity.name} fluid />
+            <Link
+              to={`/activities/${activity._id}`}
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignContent: "center",
+              }}
+            >
+              <Image
+                src={activity.image}
+                alt={activity.name}
+                style={{ width: "550px", height: "200px", objectFit: "cover" }}
+                fluid
+              />
               <Carousel.Caption className="carousel-caption">
                 <h2 className="text-white text-right">
                   {activity.name} (${activity.price})
