@@ -5,8 +5,19 @@ import Rating from "./Rating.component.jsx";
 const Activity = ({ activity }) => {
   return (
     <Card className="my-3 p-3 rounded">
-      <Link to={`/activities/${activity._id}`}>
-        <Card.Img src={activity.image} variant="top" />
+      <Link
+        to={`/activities/${activity._id}`}
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignContent: "center",
+        }}
+      >
+        <Card.Img
+          src={activity.image}
+          variant="top"
+          style={{ width: "250px", height: "200px", objectFit: "cover" }}
+        />
       </Link>
 
       <Card.Body>
